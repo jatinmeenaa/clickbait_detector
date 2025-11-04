@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clickbait Detector</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f7f8fa;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        h1 {
+            color: #333;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 0 12px rgba(0,0,0,0.1);
+            width: 400px;
+            text-align: center;
+        }
+        input {
+            width: 90%;
+            padding: 10px;
+            font-size: 16px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #result {
+            margin-top: 15px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>📰 Clickbait Detector</h1>
+        <input type="text" id="headline" placeholder="Enter a headline..." />
+        <button onclick="predict()">Check</button>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        async function predict() {
+            const headline = document.getElementById("headline").value;
+            const resultDiv = document.getElementById("result");
+            resultDiv.innerText = "Analyzing...";
+
+            const response = await fetch("http://127.0.0.1:8000/predict", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ headline })
+            });
+
+            const data = await response.json();
+            resultDiv.innerText = `Result: ${data.prediction}`;
+        }
+    </script>
+
+</body>
+</html>
